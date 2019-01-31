@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sdek.supplier.mappers.OrderMapper">
+    <resultMap id="order" type="sdek.supplier.models.Order">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="orderNum" column="order_num" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="addCanceledOrder" resultType="sdek.supplier.models.Order">
+        SELECT * FROM order WHERE id = #{id}
+    </select>
+
+</mapper>
