@@ -1,24 +1,50 @@
 package sdek.supplier.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.servlet.ModelAndView;
+import sdek.supplier.config.MyBatisConfig;
 import sdek.supplier.mappers.Dictionary;
+import sdek.supplier.mappers.FileFormatMapper;
+import sdek.supplier.models.FileFormat;
+import sdek.supplier.models.Order;
 
 
-@RestController
+@Controller
 public class Supplier {
-    /**
-     * метод возращает формат данных вносимый в базу PostgreSQL
-     * */
-    @RequestMapping(value = "/add/canceledOrder",method = RequestMethod.POST)
-    public Dictionary addCatalogSatelliteImage(
-            @RequestParam(value="numOrder", defaultValue="none") String numOrder
-    ) {
 
-        return null;
 
+
+    @RequestMapping(value = "/supplier",method = RequestMethod.GET)
+    public ModelAndView pageSupplier() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("order", new Order());
+        modelAndView.setViewName("supplier");
+        return modelAndView;
     }
+
+    @RequestMapping(value = "/add/FileFormat",method = RequestMethod.POST)
+    public String addFileFormat(@ModelAttribute("order") Order order, Model model) {
+        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
+        SqlSession session = sessionFactory.openSession();
+
+        FileFormatMapper fileFormatMapper = session.getMapper(FileFormatMapper.class);
+        FileFormat fileFormat = new FileFormat();
+        fileFormat.setShortName("shortName");
+        fileFormat.setTitle("title");
+        fileFormatMapper.insertFileFormat(fileFormat);
+        session.commit();
+        session.close();
+
+
+
+        return "supplier";
+    }
+
+
 
 }
