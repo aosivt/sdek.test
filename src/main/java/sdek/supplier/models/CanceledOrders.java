@@ -9,7 +9,19 @@ public class CanceledOrders implements Dictionary {
     private Long id;
     private Order order;
     private Date cancelDate;
-    private Boolean check;
+
+    public CanceledOrders(){}
+    public CanceledOrders(Long id, Order order){
+        this.id = id;
+        this.order = order;
+        cancelDate = new Date();
+    }
+    public CanceledOrders(Order order){
+        this.id = order.getId();
+        this.order = order;
+        cancelDate = new Date();
+    }
+
 
     public Long getId() {
         return id;
@@ -19,11 +31,11 @@ public class CanceledOrders implements Dictionary {
         this.id = id;
     }
 
-    public Order getCanceledOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setCanceledOrder(Order order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
@@ -35,11 +47,4 @@ public class CanceledOrders implements Dictionary {
         this.cancelDate = cancelDate;
     }
 
-    public Boolean isChecked() {
-        return check;
     }
-
-    public void setChecked(Boolean check) {
-        this.check = check;
-    }
-}

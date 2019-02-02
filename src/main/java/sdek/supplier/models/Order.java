@@ -6,6 +6,12 @@ public class Order implements Dictionary {
     private Long id;
     private String orderNum;
 
+    public Order(){}
+    public Order(Long id,String orderNum){
+        this.id = id;
+        this.orderNum = orderNum;
+    }
+
     public Long getId() {
         return id;
     }

@@ -25,7 +25,7 @@
               <th>Идетификатор</th>
             </tr>
         </thead>
-        <tbody id="myTable">
+        <tbody id="canceledOrder">
         <c:forEach  items="${formats}" var ="format">
         <tr>
           <td>${format.title}</td>
@@ -40,7 +40,7 @@
     $(document).ready(function(){
       $("#myInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#canceledOrder tr").filter(function() {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });
