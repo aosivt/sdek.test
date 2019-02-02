@@ -1,8 +1,6 @@
 package sdek.supplier.models;
 
-import sdek.supplier.mappers.Dictionary;
-
-public class Order implements Dictionary {
+public class Order {
     private Long id;
     private String orderNum;
 

@@ -1,10 +1,8 @@
 package sdek.supplier.models;
 
-import sdek.supplier.mappers.Dictionary;
-
 import java.util.Date;
 
-public class CanceledOrders implements Dictionary {
+public class CanceledOrders {
 
     private Long id;
     private Order order;
@@ -17,7 +15,6 @@ public class CanceledOrders implements Dictionary {
         cancelDate = new Date();
     }
     public CanceledOrders(Order order){
-        this.id = order.getId();
         this.order = order;
         cancelDate = new Date();
     }

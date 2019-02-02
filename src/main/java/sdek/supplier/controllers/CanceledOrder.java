@@ -23,35 +23,35 @@ import java.util.stream.IntStream;
 @Controller
 public class CanceledOrder {
 
-        @RequestMapping(value = "/get/canceledOrders",method = RequestMethod.GET)
+        @RequestMapping(value = "/canceledOrders",method = RequestMethod.GET)
         public String getAllCanceledOrders(Model model) {
-//            SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
-//            SqlSession session = sessionFactory.openSession();
-//
-//            CanceledOrdersMapper canceledOrdersMapper = session.getMapper(CanceledOrdersMapper.class);
-//            Set<CanceledOrders> canceledOrders = canceledOrdersMapper.getCanceledOrders();
-//            session.close();
-            Set<CanceledOrders> canceledOrders = getTestCollection();
-            model.addAttribute("canceledOrders", canceledOrders);
+            SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
+            SqlSession session = sessionFactory.openSession();
+
+            CanceledOrdersMapper canceledOrdersMapper = session.getMapper(CanceledOrdersMapper.class);
+            Set<CanceledOrders> canceledOrders = canceledOrdersMapper.getCanceledOrders();
+            session.close();
+//            Set<CanceledOrders> canceledOrders = getTestCollection();
+//            model.addAttribute("canceledOrders", canceledOrders);
             return "canceledOrders";
         }
-    @RequestMapping(value = "/fileFormatList",method = RequestMethod.GET)
-    public String getTest(Model model) {
-        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
-        SqlSession session = sessionFactory.openSession();
+//    @RequestMapping(value = "/fileFormatList",method = RequestMethod.GET)
+//    public String getTest(Model model) {
+//        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
+//        SqlSession session = sessionFactory.openSession();
+//
+//        FileFormatMapper fileFormatMapper = session.getMapper(FileFormatMapper.class);
+//        Set<FileFormat> result = fileFormatMapper.getFileFormats();
+//        session.close();
+//        model.addAttribute("formats", result);
+//        return "fileFormatList";
+//    }
 
-        FileFormatMapper fileFormatMapper = session.getMapper(FileFormatMapper.class);
-        Set<FileFormat> result = fileFormatMapper.getFileFormats();
-        session.close();
-        model.addAttribute("formats", result);
-        return "fileFormatList";
-    }
 
-
-    private Set<CanceledOrders> getTestCollection(){
-        return IntStream.range(0,10).boxed().
-                map(i->new Order(new Long(i), String.valueOf(Math.random()))).
-                map(CanceledOrders::new).
-                collect(Collectors.toSet());
-    }
+//    private Set<CanceledOrders> getTestCollection(){
+//        return IntStream.range(0,10).boxed().
+//                map(i->new Order(new Long(i), String.valueOf(Math.random()))).
+//                map(CanceledOrders::new).
+//                collect(Collectors.toSet());
+//    }
 }
