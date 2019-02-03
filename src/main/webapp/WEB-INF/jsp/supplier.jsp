@@ -13,13 +13,25 @@
     <script>$(window).load(connect());</script>
     </head>
     <body>
-        <h3>Страничка отмены закаха</h3>
-        <form:form method="POST" action="/add/FileFormat" commandName="order">
-          <div class="form-group">
-            <label for="nOrder">Номер заказа</label>
-            <form:input path="orderNum" class="form-control" id="nOrder" placeholder="Введите номер отменяемого заказа"/>
-          </div>
-         <input type="submit" id="send" value="Не успеваю" class="btn btn-primary"/>
-        </form:form>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col"></div>
+          <div class="col">
+           <div class="card" style="width: 36rem;">
+             <div class="card-body">
+               <div class="card-header">Страничка отмены заказа</div>
+                <form:form method="POST" action="/add/FileFormat" commandName="order">
+                  <div class="form-group">
+                    <label for="nOrder">Номер заказа</label>
+                    <form:input path="orderNum" class="form-control" id="nOrder" placeholder="Введите номер отменяемого заказа"/>
+                  </div>
+                 <input type="submit" id="send" value="Не успеваю" class="btn btn-primary"/>
+                </form:form>
+                </div>
+              </div>
+            </div>
+          <div class="col"></div>
+        </div>
+      </div>
     </body>
 </html>
