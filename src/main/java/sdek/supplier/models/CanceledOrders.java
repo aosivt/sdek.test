@@ -5,6 +5,7 @@ import java.util.Date;
 public class CanceledOrders {
 
     private Long id;
+    private Long orderId;
     private Order order;
     private Date cancelDate;
 
@@ -15,7 +16,9 @@ public class CanceledOrders {
         cancelDate = new Date();
     }
     public CanceledOrders(Order order){
+
         this.order = order;
+        orderId = order.getId();
         cancelDate = new Date();
     }
 
@@ -44,4 +47,11 @@ public class CanceledOrders {
         this.cancelDate = cancelDate;
     }
 
+    public Long getOrderId() {
+        return orderId;
     }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+}

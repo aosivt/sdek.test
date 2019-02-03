@@ -4,15 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <properties resource="config.properties">
-        <!--ссылка на файл со свойствами(ссылка на СУБД, логин, пароль и тп.)-->
     </properties>
     <settings>
-        <!--в данном блоке можно настроить много параметров. Полный список параметров http://mybatis.github.io/mybatis-3/configuration.html#settings-->
         <setting name="logImpl" value="LOG4J"/>
     </settings>
     <environments default="development">
-        <!--в данном блоке настраиваются подключения к БД-->
-        <environment id="development">
+         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="${db.driver}"/>
@@ -23,10 +20,7 @@
         </environment>
     </environments>
     <mappers>
-        <!--в данном блоке необходимо описать маперы, которые используются в проекте-->
-        <!--<mapper resource="mappers/CanceledOrderMapper.xml"/>-->
-        <!--<mapper resource="mappers/OrderMapper.xml"/>-->
-        <mapper class="sdek.supplier.mappers.FileFormatMapper"/>
-        <!--<mapper resource="mappers/FileFormatMapper.xml"/>-->
+        <mapper class="sdek.supplier.mappers.OrderMapper"/>
+        <mapper class="sdek.supplier.mappers.CanceledOrdersMapper"/>
     </mappers>
 </configuration>

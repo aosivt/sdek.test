@@ -10,7 +10,7 @@ import java.util.Set;
 public interface OrderMapper {
 
 
-    @Select("select * from order")
+    @Select("select * from orders")
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "orderNum", column = "order_num")
@@ -18,7 +18,7 @@ public interface OrderMapper {
 
     Set<Order> getOrders();
 
-    @Select("select * from order where id = #{id}")
+    @Select("select * from orders where id = #{id}")
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "orderNum", column = "order_num")
@@ -26,7 +26,7 @@ public interface OrderMapper {
 
     Order getOrderById(Long id);
 
-    @Select("select * from order where orderNum = #{order_num}")
+    @Select("select * from orders where order_num = #{orderNum}")
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "orderNum", column = "order_num")

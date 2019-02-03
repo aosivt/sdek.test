@@ -2,14 +2,14 @@ package sdek.supplier.controllers;
 
 import java.util.Objects;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import sdek.supplier.config.MyBatisConfig;
 
@@ -37,7 +37,6 @@ public class Supplier {
     @MessageMapping("/canceledOrder")
     @SendTo("/topic/greetings")
     public CanceledOrders greeting(Order checkOrder) throws Exception {
-
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         OrderMapper orderMapper = session.getMapper(OrderMapper.class);
