@@ -1,6 +1,7 @@
 package sdek.supplier.controllers;
 
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -53,4 +54,16 @@ public class Supplier {
         return canceledOrder;
     }
 
+
+    @MessageMapping("/selectOrders")
+    @SendTo("/topic/test")
+    public Set<CanceledOrders> selectOrders(Order checkOrder) throws Exception {
+        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
+        SqlSession session = sessionFactory.openSession();
+
+        CanceledOrdersMapper canceledOrdersMapper = session.getMapper(CanceledOrdersMapper.class);
+        Set<CanceledOrders> canceledOrders = canceledOrdersMapper.getCanceledOrders();
+        session.close();
+        return canceledOrders;
+    }
 }

@@ -29,4 +29,10 @@ public class CanceledOrder {
             return "canceledOrders";
         }
 
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String getIndexApp(Model model) {
+        return "index";
+    }
+
+
 }
