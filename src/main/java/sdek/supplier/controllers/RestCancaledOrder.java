@@ -8,25 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 import sdek.supplier.config.MyBatisConfig;
 import sdek.supplier.mappers.CanceledOrdersMapper;
 import sdek.supplier.models.CanceledOrders;
+import sdek.supplier.utils.MyBatisUtils;
 
 import java.util.Set;
 
 @RestController
 public class RestCancaledOrder {
     /**
-     * метод возращает удаленную сущность формата файла
-     * @return CatalogHiveSQLSatelliteBands object hibernate объект соответствующей сущности
+     * method for get canceled orders
+     * @return Set<CanceledOrders> object mapper
      * */
-    @RequestMapping(value = "/getCanceledOrders",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCanceledOrders",method = {RequestMethod.GET, RequestMethod.POST})
     public Set<CanceledOrders> getCanceledOrders() {
-
-        SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
-        SqlSession session = sessionFactory.openSession();
-
-        CanceledOrdersMapper canceledOrdersMapper = session.getMapper(CanceledOrdersMapper.class);
-        Set<CanceledOrders> canceledOrders = canceledOrdersMapper.getCanceledOrders();
-        session.close();
-
-        return canceledOrders;
+        return MyBatisUtils.getDataMappers(CanceledOrdersMapper.class);
     }
 }

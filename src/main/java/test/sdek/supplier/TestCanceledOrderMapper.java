@@ -32,7 +32,7 @@ public class TestCanceledOrderMapper {
     @Test
     public void insertCanceledOrder(){
 
-        Order order = mapperOrder.getOrderById(5L);
+        Order order = mapperOrder.getById(5L);
         CanceledOrders canceledOrder = new CanceledOrders(order);
         mapperCanceledOrder.insertCanceledOrders(canceledOrder);
         session.commit();
@@ -42,7 +42,7 @@ public class TestCanceledOrderMapper {
     @Test
     public void deleteCanceledOrder(){
 
-        Order order = mapperOrder.getOrderById(5L);
+        Order order = mapperOrder.getById(5L);
         CanceledOrders canceledOrder = new CanceledOrders(order);
         mapperCanceledOrder.deleteCanceledOrder(canceledOrder);
         session.commit();
