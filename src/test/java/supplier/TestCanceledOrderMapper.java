@@ -1,4 +1,4 @@
-package test.sdek.supplier;
+package supplier;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -25,13 +25,16 @@ public class TestCanceledOrderMapper {
         mapperOrder = session.getMapper(OrderMapper.class);
     }
     @Test
-    public void selectCanceledOrderByOrderId(){
+    public void checkCanceledOrderByOrderId(){
+        assertSelectedCanceledOrderByOrderId();
+        assertInsertCanceledOrder();
+        assertDeleteCanceledOrder();
+    }
+    private void assertSelectedCanceledOrderByOrderId(){
         CanceledOrders canceledOrder = mapperCanceledOrder.getCanceledOrderByOrderId(1L);
         Assert.assertEquals(canceledOrder.getOrder().getOrderNum(),"test1");
     }
-    @Test
-    public void insertCanceledOrder(){
-
+    private void assertInsertCanceledOrder(){
         Order order = mapperOrder.getById(5L);
         CanceledOrders canceledOrder = new CanceledOrders(order);
         mapperCanceledOrder.insertCanceledOrders(canceledOrder);
@@ -39,9 +42,7 @@ public class TestCanceledOrderMapper {
         CanceledOrders checkedCanceledOrder = mapperCanceledOrder.getCanceledOrderByOrderId(5L);
         Assert.assertEquals(checkedCanceledOrder.getOrder().getOrderNum(),"test5");
     }
-    @Test
-    public void deleteCanceledOrder(){
-
+    private void assertDeleteCanceledOrder(){
         Order order = mapperOrder.getById(5L);
         CanceledOrders canceledOrder = new CanceledOrders(order);
         mapperCanceledOrder.deleteCanceledOrder(canceledOrder);

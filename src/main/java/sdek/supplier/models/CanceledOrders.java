@@ -2,8 +2,9 @@ package sdek.supplier.models;
 
 import java.util.Date;
 
-public class CanceledOrders extends Dictionary{
+public class CanceledOrders implements Dictionary{
 
+    private Long id;
     private Long orderId;
     private Order order;
     private Date cancelDate;
@@ -22,12 +23,24 @@ public class CanceledOrders extends Dictionary{
     }
 
 
+
+
     public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getCancelDate() {

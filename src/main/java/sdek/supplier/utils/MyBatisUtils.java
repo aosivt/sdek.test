@@ -19,11 +19,11 @@ public class MyBatisUtils {
         session.close();
         return dictionary;
     }
-    public static Set getDataMappers(Class type){
+    public static Set<Dictionary> getDataMappers(Class type){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         SqlSession session = sessionFactory.openSession();
         Mapper m = (Mapper) session.getMapper(type);
-        Set collectionDictionary = m.getCollectionData();
+        Set<Dictionary> collectionDictionary = m.getCollectionData();
         session.close();
         return collectionDictionary;
     }

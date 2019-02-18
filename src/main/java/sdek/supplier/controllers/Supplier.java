@@ -1,6 +1,7 @@
 package sdek.supplier.controllers;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -29,8 +30,7 @@ public class Supplier {
     @MessageMapping("/canceledOrder")
     @SendTo("/topic/canceled")
     public ResponseSocket canceledOrder(RequestSocket requestSocket) throws Exception {
-        ResponseSocket responceSocket = ResponseSocketBuilder.build(requestSocket);
-        return responceSocket;
+        return ResponseSocketBuilder.build(requestSocket);
     }
 
 }

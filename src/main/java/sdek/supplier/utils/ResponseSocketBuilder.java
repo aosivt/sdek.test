@@ -1,8 +1,14 @@
 package sdek.supplier.utils;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import sdek.supplier.config.MyBatisConfig;
+import sdek.supplier.exceptions.CanceledOrderExistException;
+import sdek.supplier.exceptions.InsertCanceledOrderException;
+import sdek.supplier.exceptions.OrderNullPointerException;
 import sdek.supplier.mappers.CanceledOrdersMapper;
 import sdek.supplier.mappers.OrderMapper;
 import sdek.supplier.models.CanceledOrders;
@@ -12,80 +18,80 @@ import sdek.supplier.models.Order;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ResponseSocketBuilder implements Serializable {
+public class ResponseSocketBuilder {
 
     private SqlSession session;
-    private ResponseSocket responceSocket;
+    private ResponseSocket responseSocket;
     private OrderMapper orderMapper;
     private CanceledOrdersMapper canceledOrdersMapper;
-    private Order order;
+
+    private static Logger log = LogManager.getLogger(ResponseSocketBuilder.class);
 
     private ResponseSocketBuilder(){
         SqlSessionFactory sessionFactory = MyBatisConfig.getSessionFactory();
         session = sessionFactory.openSession();
-        responceSocket = new ResponseSocket();
+        responseSocket = new ResponseSocket();
         orderMapper = session.getMapper(OrderMapper.class);
         canceledOrdersMapper = session.getMapper(CanceledOrdersMapper.class);
     }
 
     public static ResponseSocket build(RequestSocket requestSocket){
         ResponseSocketBuilder builder = new ResponseSocketBuilder();
+        builder.responseSocket.setNumUser(requestSocket.getNumUser());
 
-        builder.isExistOrder(requestSocket);
-        builder.isExistCanceldOrder(requestSocket);
-        builder.insertCanceldOrder(requestSocket);
+        try{
+            Order order = builder.getExistOrder(requestSocket);
+            builder.isExistCanceledOrder(order);
+            builder.insertCanceledOrder(order);
+            builder.isErrorInsert(order);
+        }catch (OrderNullPointerException | CanceledOrderExistException ex){
+            log.info(ex);
+        } catch (InsertCanceledOrderException | PersistenceException ex){
+            log.error(ex);
+        }
+
         builder.closeSession();
-        return builder.responceSocket;
+        return builder.responseSocket;
     }
 
-    private boolean isExistOrder(RequestSocket requestSocket){
-        order = orderMapper.getOrderByOrderNum(requestSocket.getOrderNum());
+    private Order getExistOrder(RequestSocket requestSocket) throws OrderNullPointerException {
+        Order order = orderMapper.getOrderByOrderNum(requestSocket.getOrderNum());
         if (Objects.isNull(order)){
-            responceSocket.setAction(Actions.ERROR);
-            responceSocket.setMessage("Не существует заказа");
-            responceSocket.setDictionary(order);
-            responceSocket.setNumUser(requestSocket.getNumUser());
-            return true;
+            responseSocket.setAction(Actions.ERROR);
+            responseSocket.setMessage("Не существует заказа");
+            responseSocket.setDictionary(order);
+            throw new OrderNullPointerException();
         }
-        return false;
+        return order;
     }
 
-    private boolean isExistCanceldOrder(RequestSocket requestSocket){
-        CanceledOrders canceledOrderExist = canceledOrdersMapper.getCanceledOrderByOrderNum(requestSocket.getOrderNum());
-        if (Objects.isNull(responceSocket.getAction()) && !Objects.isNull(canceledOrderExist)){
-            responceSocket.setAction(Actions.EXIST);
-            responceSocket.setMessage("Данный заказ уже в очереди на отменену");
-            responceSocket.setDictionary(canceledOrderExist);
-            responceSocket.setNumUser(requestSocket.getNumUser());
-            return true;
+    private void isExistCanceledOrder(Order order) throws CanceledOrderExistException {
+        Dictionary canceledOrderExist = canceledOrdersMapper.getCanceledOrderByOrderNum(order.getOrderNum());
+        if (Objects.isNull(responseSocket.getAction()) && !Objects.isNull(canceledOrderExist)){
+            responseSocket.setAction(Actions.EXIST);
+            responseSocket.setMessage("Данный заказ уже в очереди на отменену");
+            responseSocket.setDictionary(canceledOrderExist);
+            throw new CanceledOrderExistException();
         }
-        return false;
     }
 
-    private boolean isErrorInsert(RequestSocket requestSocket){
-        order = orderMapper.getOrderByOrderNum(requestSocket.getOrderNum());
-        if (Objects.isNull(order)){
-            responceSocket.setAction(Actions.ERROR);
-            responceSocket.setMessage("Ошибка записи в БД");
-            responceSocket.setDictionary(order);
-            responceSocket.setNumUser(requestSocket.getNumUser());
-            return true;
-        }
-        return false;
+    private void insertCanceledOrder(Order order) throws PersistenceException{
+        CanceledOrders canceledOrder = new CanceledOrders(order);
+        canceledOrdersMapper.insertCanceledOrders(canceledOrder);
+        session.commit();
+        responseSocket.setAction(Actions.SAVE);
+        responseSocket.setMessage("Заказ в очереди на отмену");
+        responseSocket.setDictionary(canceledOrder);
     }
 
-    private boolean insertCanceldOrder(RequestSocket requestSocket){
-        if (Objects.isNull(responceSocket.getAction())) {
-            CanceledOrders canceledOrder = new CanceledOrders(order);
-            canceledOrdersMapper.insertCanceledOrders(canceledOrder);
-            session.commit();
-            responceSocket.setAction(Actions.SAVE);
-            responceSocket.setMessage("Заказ в очереди на отмену");
-            responceSocket.setDictionary(canceledOrder);
-            responceSocket.setNumUser(requestSocket.getNumUser());
-            return true;
+    private void isErrorInsert(Order order) throws InsertCanceledOrderException{
+        CanceledOrders canceledOrderExist = canceledOrdersMapper.getCanceledOrderByOrderNum(order.getOrderNum());
+        if (Objects.isNull(canceledOrderExist)){
+            responseSocket.setAction(Actions.ERROR);
+            responseSocket.setMessage("Ошибка записи в БД");
+            responseSocket.setDictionary(order);
+            throw new InsertCanceledOrderException();
         }
-        return false;
     }
 
     private void closeSession(){
