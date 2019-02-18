@@ -32,6 +32,8 @@ public class TestResponseSocketBuilder {
     @Before
     public void setup() throws NoSuchFieldException, IllegalAccessException,
                                 InvocationTargetException, InstantiationException {
+
+
         Constructor<ResponseSocketBuilder> constructor =
                 (Constructor<ResponseSocketBuilder>) ResponseSocketBuilder.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
