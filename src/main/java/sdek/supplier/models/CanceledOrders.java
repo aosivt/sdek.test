@@ -10,6 +10,11 @@ public class CanceledOrders implements Dictionary{
     private Date cancelDate;
 
     public CanceledOrders(){}
+    public CanceledOrders(Long id){
+        this.id = id;
+        orderId = id;
+        cancelDate = new Date();
+    }
 
     public CanceledOrders(Long id, Order order){
         this.id = id;

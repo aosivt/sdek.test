@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sdek.supplier.config.MyBatisConfig;
 import sdek.supplier.mappers.CanceledOrdersMapper;
 import sdek.supplier.models.CanceledOrders;
+import sdek.supplier.models.Dictionary;
 import sdek.supplier.utils.MyBatisUtils;
 
 import java.util.Set;
@@ -19,7 +20,7 @@ public class RestCancaledOrder {
      * @return Set<CanceledOrders> object mapper
      * */
     @RequestMapping(value = "/getCanceledOrders",method = {RequestMethod.GET, RequestMethod.POST})
-    public Set<CanceledOrders> getCanceledOrders() {
+    public Set<Dictionary> getCanceledOrders() {
         return MyBatisUtils.getDataMappers(CanceledOrdersMapper.class);
     }
 }
