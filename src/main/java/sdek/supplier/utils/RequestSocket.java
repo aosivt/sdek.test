@@ -9,6 +9,7 @@ public class RequestSocket implements Serializable {
     private String numUser;
     private Actions action;
 
+
     public String getOrderNum() {
         return orderNum;
     }

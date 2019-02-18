@@ -59,7 +59,6 @@ public class ResponseSocketBuilder {
         if (Objects.isNull(order)){
             responseSocket.setAction(Actions.ERROR);
             responseSocket.setMessage("Не существует заказа");
-            responseSocket.setDictionary(order);
             throw new OrderNullPointerException();
         }
         return order;
@@ -69,7 +68,7 @@ public class ResponseSocketBuilder {
         Dictionary canceledOrderExist = canceledOrdersMapper.getCanceledOrderByOrderNum(order.getOrderNum());
         if (Objects.isNull(responseSocket.getAction()) && !Objects.isNull(canceledOrderExist)){
             responseSocket.setAction(Actions.EXIST);
-            responseSocket.setMessage("Данный заказ уже в очереди на отменену");
+            responseSocket.setMessage("Данный заказ уже в очереди на отмену");
             responseSocket.setDictionary(canceledOrderExist);
             throw new CanceledOrderExistException();
         }
