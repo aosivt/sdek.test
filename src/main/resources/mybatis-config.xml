@@ -20,6 +20,7 @@
         </environment>
     </environments>
     <mappers>
+        <mapper class="sdek.supplier.mappers.Mapper"/>
         <mapper class="sdek.supplier.mappers.OrderMapper"/>
         <mapper class="sdek.supplier.mappers.CanceledOrdersMapper"/>
     </mappers>

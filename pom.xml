@@ -90,6 +90,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -106,6 +112,26 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5436/postgres</url>
+                    <user>postgres</user>
+                    <password>suppluer</password>
+                    <!--<locations>-->
+                        <!--<location>db/migration</location>-->
+                    <!--</locations>-->
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.1-901-1.jdbc4</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

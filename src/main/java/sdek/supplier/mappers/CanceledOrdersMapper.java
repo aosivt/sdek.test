@@ -17,7 +17,7 @@ public interface CanceledOrdersMapper extends Mapper {
             @Result(property = "cancelDate", column = "cancel_date")
     })
 
-    Set<Dictionary> getCollectionData();
+    Set<CanceledOrders> getCollectionData();
 
     @Select("select * from canceled_orders WHERE id = #{id}")
     @Results(value={

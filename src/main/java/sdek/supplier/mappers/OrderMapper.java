@@ -18,7 +18,7 @@ public interface OrderMapper extends Mapper {
             @Result(property = "orderNum", column = "order_num")
     })
 
-    Set<Dictionary> getCollectionData();
+    Set getCollectionData();
 
     @Select("select * from orders where id = #{id}")
     @Results({
